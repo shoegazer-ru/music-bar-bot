@@ -72,7 +72,7 @@ const App = {
         embed.setDescription(config.welcome_message_body.replace('{username}', username));
         channel.send(embed); 
 
-        App.log('welcome messsage posted for user ' + App.getMemberView(member));
+        App.log('welcome message posted for user ' + App.getMemberView(member));
     },
 
     getNewRoles: function(oldMember, newMember) {
