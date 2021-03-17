@@ -1,0 +1,7 @@
+{
+    "bot_token": "token",
+    "welcome_role": "role_name",
+    "welcome_message_title": "New member!",
+    "welcome_message_body": "Welcome, {username}!",
+    "welcome_message_channel": "channel_id"
+}
