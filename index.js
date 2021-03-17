@@ -1,8 +1,6 @@
 const {Client, MessageEmbed} = require("discord.js");
 const config = require("./config.json");
 
-App.start();
-
 const App = {
     client: null,
 
@@ -12,22 +10,22 @@ const App = {
         this.client = new Client();
 
         this.client.on("ready", function(){
-            App.log(`the this.client becomes ready to start`);
-            App.log(`I am ready! Logged in as ${this.client.user.tag}!`);
+            App.log(`client becomes ready to start`);
+            App.log(`I am ready! Logged in as ${App.client.user.tag}!`);
         });
 
         this.client.on("guildMemberUpdate", function(oldMember, newMember){
-            App.log(`a guild member updated`);
+            App.log('a guild member updated ' + App.getMemberView(newMember));
             App.handleWelcomeRoleAdd(oldMember, newMember);
         });
 
         this.client.on("userUpdate", function(oldMember, newMember){
-            App.log(`a user updated`);
+            App.log('a user updated ' + App.getMemberView(newMember));
             App.handleWelcomeRoleAdd(oldMember, newMember);
         });
 
         this.client.on("presenceUpdate", function(oldMember, newMember){
-            App.log('a precense updated');
+            App.log('a precense updated ' + App.getMemberView(newMember));
             App.handleWelcomeRoleAdd(oldMember, newMember);
         });
 
@@ -35,6 +33,7 @@ const App = {
     },
 
     log: function(message, data){
+        message = '[' + App.getCurrentDateTimeString() + '] - ' + message;
         if (!data) {
             console.log(message);
         } else {
@@ -43,7 +42,7 @@ const App = {
     },
 
     handleWelcomeRoleAdd: function(oldMember, newMember){
-        let newRoles = getNewRoles(oldMember, newMember);
+        let newRoles = App.getNewRoles(oldMember, newMember);
         if (!newRoles || !newRoles.length) {
             return null;
         }
@@ -72,6 +71,8 @@ const App = {
         embed.setTitle(config.welcome_message_title); 
         embed.setDescription(config.welcome_message_body.replace('{username}', username));
         channel.send(embed); 
+
+        App.log('welcome messsage posted for user ' + App.getMemberView(member));
     },
 
     getNewRoles: function(oldMember, newMember) {
@@ -92,5 +93,29 @@ const App = {
         });
 
         return newRoles;
+    },
+
+    getCurrentDateTimeString: function() {
+        const currentdate = new Date(); 
+        return currentdate.getFullYear() + "-"
+            + (App.zerofillDateValue(currentdate.getMonth()+1))  + "-" 
+            + App.zerofillDateValue(currentdate.getDate()) + " "  
+            + App.zerofillDateValue(currentdate.getHours()) + ":"  
+            + App.zerofillDateValue(currentdate.getMinutes()) + ":" 
+            + App.zerofillDateValue(currentdate.getSeconds());
+    },
+
+    zerofillDateValue: function(value) {
+        if (value >= 10) {
+            return value;
+        }
+
+        return '0' + value;
+    },
+
+    getMemberView: function(member) {
+        return member.user.username + ' (' + member.nickname + ')' + ' id:' + member.user.id;
     }
 };
+
+App.start();
