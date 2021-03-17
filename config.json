@@ -1,0 +1,7 @@
+{
+    "bot_token": "ODIxMzQ3Mzg1NjI4MTY0MTI3.YFCZXA.jF2uyF-4g2-vQxXc4Mx8a9CgTPY",
+    "welcome_role": "Синий",
+    "welcome_message_title": "Новый посетитель!",
+    "welcome_message_body": "Встречаем {username}! Проходи, <#819883499842437150> и получи <#819883444326498305>!",
+    "welcome_message_channel": "819771314498961411"
+}
